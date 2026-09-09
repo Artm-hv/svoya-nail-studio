@@ -1463,3 +1463,191 @@ address {
         padding: 1rem 2.5rem;
     }
 }
+/* ══════════════════════════════
+   MOBILE COMPACTNESS OVERRIDES
+   Applied after existing responsive rules
+   ══════════════════════════════ */
+
+@media (max-width: 768px) {
+    /* Hero */
+    .hero {
+        min-height: 85svh;
+        height: auto;
+        justify-content: center;
+        padding: 6rem 1rem 4rem;
+    }
+
+    .hero-content {
+        margin-top: 0;
+        gap: 1rem;
+    }
+
+    .hero-logo {
+        width: 110px;
+        height: 110px;
+    }
+
+    .hero-tagline {
+        font-size: var(--fs-base);
+    }
+
+    /* Global spacing */
+    .section {
+        padding: 2.5rem 0;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+
+    /* Services: compact 2-column grid */
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+
+    .service-card {
+        flex: none;
+        max-width: none;
+        padding: 1.25rem 0.75rem;
+    }
+
+    .service-icon {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 0.75rem;
+    }
+
+    .service-title {
+        font-size: 1.125rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .service-card p {
+        font-size: 0.8rem;
+        line-height: 1.45;
+    }
+
+    /* Team: horizontal snap scroll */
+    .team-grid {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1rem;
+    }
+
+    .team-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .team-card {
+        flex: 0 0 75%;
+        scroll-snap-align: center;
+    }
+
+    .team-photo {
+        width: 130px;
+        height: 130px;
+    }
+
+    .team-name {
+        font-size: 1.35rem;
+    }
+
+    .team-bio {
+        font-size: 0.8rem;
+        max-width: 100%;
+    }
+
+    /* Gallery: horizontal snap scroll */
+    .gallery-grid {
+        display: flex;
+        gap: 0.75rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.5rem;
+    }
+
+    .gallery-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .gallery-item {
+        flex: 0 0 85%;
+        height: 260px;
+        scroll-snap-align: center;
+    }
+
+    .gallery-item--tall,
+    .gallery-item--wide {
+        grid-row: auto;
+        grid-column: auto;
+    }
+
+    /* Reviews: horizontal snap scroll */
+    .reviews-grid {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1rem;
+    }
+
+    .reviews-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .review-card {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        padding: 1.5rem;
+    }
+
+    .review-card::before {
+        font-size: 2.5rem;
+        top: 0.75rem;
+        left: 1rem;
+    }
+
+    .review-text {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .service-card {
+        padding: 1rem 0.5rem;
+    }
+
+    .service-title {
+        font-size: 1rem;
+    }
+
+    .service-card p {
+        font-size: 0.75rem;
+    }
+
+    .team-card {
+        flex: 0 0 85%;
+    }
+
+    .gallery-item {
+        flex: 0 0 85%;
+        height: 220px;
+    }
+}
