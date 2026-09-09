@@ -675,12 +675,30 @@ address {
     margin: 0 auto 2.5rem;
 }
 
-.school-course {
+.courses-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+}
+
+.courses-track {
+    display: flex;
+    transition: transform 0.4s ease-out;
+    will-change: transform;
+}
+
+.course-slide {
+    flex: 0 0 100%;
+    min-width: 100%;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius);
     padding: 2.5rem 2rem;
-    margin-bottom: 2.5rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .course-name {
@@ -688,6 +706,13 @@ address {
     font-size: var(--fs-xl);
     font-weight: 400;
     color: var(--clr-surface);
+    margin-bottom: 1rem;
+}
+
+.course-desc {
+    font-size: var(--fs-sm);
+    color: var(--clr-taupe-l);
+    line-height: 1.6;
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -697,6 +722,67 @@ address {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+
+/* Slider Controls */
+.slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.slider-arrow {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--clr-surface);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.slider-arrow:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--clr-surface);
+}
+
+.slider-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+.slider-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.slider-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition);
+    padding: 0;
+}
+
+.slider-dot.active {
+    background: var(--clr-gold);
+    transform: scale(1.2);
+}
+
+.btn--course {
+    align-self: center;
+    margin-top: auto;
 }
 
 .course-detail {
@@ -1360,8 +1446,17 @@ address {
         padding: 2.5rem 1.5rem;
     }
 
+    .course-slide {
+        padding: 2rem 1.5rem;
+    }
+
     .course-name {
         font-size: var(--fs-lg);
+        margin-bottom: 1rem;
+    }
+
+    .course-details {
+        gap: 1rem;
     }
 
     .btn--school {

@@ -145,7 +145,105 @@
     });
 
     /* ═══════════════════════════════════
-       6. HERO VIDEO LAZY-LOAD
+       6. COURSES SLIDER (Touch & Mouse Support)
+       ═══════════════════════════════════ */
+    const track = document.getElementById('courses-track');
+    const slides = document.querySelectorAll('.course-slide');
+    const prevBtn = document.getElementById('course-prev');
+    const nextBtn = document.getElementById('course-next');
+    const dotsContainer = document.getElementById('course-dots');
+    
+    if (track && slides.length > 0) {
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        
+        // Generate Dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.classList.add('slider-dot');
+            dot.setAttribute('aria-label', `Перейти до курсу ${i + 1}`);
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+        const dots = document.querySelectorAll('.slider-dot');
+
+        function updateSlider() {
+            // Move track
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            // Update dots
+            dots.forEach(dot => dot.classList.remove('active'));
+            if (dots[currentIndex]) {
+                dots[currentIndex].classList.add('active');
+            }
+            // Update buttons
+            prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+            prevBtn.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+            nextBtn.style.opacity = currentIndex === totalSlides - 1 ? '0.5' : '1';
+            nextBtn.style.pointerEvents = currentIndex === totalSlides - 1 ? 'none' : 'auto';
+        }
+
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            currentIndex = index;
+            updateSlider();
+        }
+
+        prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+        // Swipe support
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        track.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            track.style.transition = 'none'; // Remove transition during drag
+        }, { passive: true });
+
+        track.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+            const diff = currentX - startX;
+            // Add some resistance at edges
+            let transform = -(currentIndex * 100) + (diff / track.offsetWidth * 100);
+            if (currentIndex === 0 && diff > 0) transform = diff / track.offsetWidth * 20; // Resistance left
+            if (currentIndex === totalSlides - 1 && diff < 0) transform = -(currentIndex * 100) + (diff / track.offsetWidth * 20); // Resistance right
+            
+            track.style.transform = `translateX(${transform}%)`;
+        }, { passive: true });
+
+        track.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            track.style.transition = 'transform 0.4s ease-out'; // Restore transition
+            
+            const diff = currentX - startX;
+            const threshold = 50; // min swipe distance in px
+
+            if (currentX !== 0 && Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    goToSlide(currentIndex - 1); // Swiped right
+                } else {
+                    goToSlide(currentIndex + 1); // Swiped left
+                }
+            } else {
+                updateSlider(); // Snap back
+            }
+            
+            // Reset variables
+            startX = 0;
+            currentX = 0;
+        });
+
+        // Initialize state
+        updateSlider();
+    }
+
+    /* ═══════════════════════════════════
+       7. HERO VIDEO LAZY-LOAD
        ═══════════════════════════════════ */
     var heroVideo = document.querySelector('.hero-video');
     if (heroVideo && 'IntersectionObserver' in window) {
