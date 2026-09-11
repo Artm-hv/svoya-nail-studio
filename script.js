@@ -11,6 +11,7 @@
     const hamburger  = document.getElementById('hamburger');
     const nav        = document.getElementById('main-nav');
     const navLinks   = nav.querySelectorAll('.nav-link');
+    const navOverlay = document.getElementById('nav-overlay');
     const galleryEl  = document.getElementById('gallery-grid');
     const lightbox   = document.getElementById('lightbox');
     const lbImg      = document.getElementById('lightbox-img');
@@ -37,6 +38,9 @@
        ═══════════════════════════════════ */
     function toggleNav() {
         const isOpen = nav.classList.toggle('open');
+        if (navOverlay) {
+            navOverlay.classList.toggle('open', isOpen);
+        }
         hamburger.classList.toggle('active', isOpen);
         hamburger.setAttribute('aria-expanded', String(isOpen));
         document.body.classList.toggle('no-scroll', isOpen);
@@ -44,12 +48,35 @@
 
     function closeNav() {
         nav.classList.remove('open');
+        if (navOverlay) {
+            navOverlay.classList.remove('open');
+        }
         hamburger.classList.remove('active');
         hamburger.setAttribute('aria-expanded', 'false');
         document.body.classList.remove('no-scroll');
     }
 
     hamburger.addEventListener('click', toggleNav);
+
+    if (navOverlay) {
+        navOverlay.addEventListener('click', closeNav);
+    }
+
+    // Close when tapping anywhere outside the nav and hamburger
+    document.addEventListener('click', function (e) {
+        if (nav.classList.contains('open')) {
+            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                closeNav();
+            }
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && nav.classList.contains('open')) {
+            closeNav();
+        }
+    });
 
     navLinks.forEach(function (link) {
         link.addEventListener('click', closeNav);
@@ -243,7 +270,50 @@
     }
 
     /* ═══════════════════════════════════
-       7. HERO VIDEO LAZY-LOAD
+       7. TEAM AVATAR PICKER
+       ═══════════════════════════════════ */
+    const teamAvatars = document.querySelectorAll('.team-avatar-btn');
+    const teamDetailImg = document.getElementById('team-detail-img');
+    const teamDetailName = document.getElementById('team-detail-name');
+    const teamDetailRole = document.getElementById('team-detail-role');
+    const teamDetailBio = document.getElementById('team-detail-bio');
+    const teamAvatarsTrack = document.getElementById('team-avatars');
+    const teamPrevBtn = document.querySelector('.prev-avatar');
+    const teamNextBtn = document.querySelector('.next-avatar');
+
+    if (teamAvatars.length > 0) {
+        teamAvatars.forEach(avatar => {
+            avatar.addEventListener('click', function() {
+                // Remove active class from all
+                teamAvatars.forEach(btn => btn.classList.remove('active'));
+                // Add to clicked
+                this.classList.add('active');
+                
+                // Update detail card (using textContent for safety, except for bio which needs HTML for spans if any)
+                teamDetailImg.src = this.getAttribute('data-photo');
+                teamDetailImg.alt = this.getAttribute('data-name');
+                teamDetailName.textContent = this.getAttribute('data-name');
+                teamDetailRole.textContent = this.getAttribute('data-role');
+                
+                // For bio, we might have standard HTML like <span class="brand-text">. 
+                // We use innerHTML here cautiously, knowing the data source is hardcoded in HTML, not user input.
+                teamDetailBio.innerHTML = this.getAttribute('data-bio');
+            });
+        });
+
+        // Team avatar scroll buttons
+        if (teamPrevBtn && teamNextBtn && teamAvatarsTrack) {
+            teamPrevBtn.addEventListener('click', () => {
+                teamAvatarsTrack.scrollBy({ left: -150, behavior: 'smooth' });
+            });
+            teamNextBtn.addEventListener('click', () => {
+                teamAvatarsTrack.scrollBy({ left: 150, behavior: 'smooth' });
+            });
+        }
+    }
+
+    /* ═══════════════════════════════════
+       8. HERO VIDEO LAZY-LOAD
        ═══════════════════════════════════ */
     var heroVideo = document.querySelector('.hero-video');
     if (heroVideo && 'IntersectionObserver' in window) {

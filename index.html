@@ -31,12 +31,14 @@
 </head>
 
 <body>
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
 
     <!-- ═══════════ HEADER ═══════════ -->
     <header class="site-header" id="site-header">
         <div class="container header-inner">
             <a href="#hero" class="header-logo" aria-label="SVOYA — на головну">
-                <img src="assets/svoya nail-05.png" alt="SVOYA Nail Studio" width="120" height="120">
+                <img src="assets/svoya nail-05.png" alt="SVOYA Nail Studio" class="logo-light" width="52" height="52">
+                <img src="assets/logo-dark.png" alt="SVOYA Nail Studio" class="logo-dark" width="52" height="52">
             </a>
             <nav class="main-nav" id="main-nav" aria-label="Головне меню">
                 <ul class="nav-list">
@@ -44,8 +46,8 @@
                     <li><a href="#services" class="nav-link">Послуги</a></li>
                     <li><a href="#school" class="nav-link">Школа</a></li>
                     <li><a href="#team" class="nav-link">Команда</a></li>
-                    <li><a href="#reviews" class="nav-link">Відгуки</a></li>
                     <li><a href="#gallery" class="nav-link">Галерея</a></li>
+                    <li><a href="#reviews" class="nav-link">Відгуки</a></li>
                     <li><a href="#contact" class="nav-link">Контакти</a></li>
                 </ul>
             </nav>
@@ -371,110 +373,89 @@
         <div class="container">
             <span class="section-label" data-animate="fade-up">Професіонали</span>
             <h2 class="section-title" data-animate="fade-up">Наша команда</h2>
-            <div class="team-grid">
-                <article class="team-card" data-animate="fade-up">
-                    <div class="team-photo">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%239a8c7f'%3EФото%3C/text%3E%3C/svg%3E"
-                            alt="Юлія Гіжовська" loading="lazy">
-                    </div>
-                    <h3 class="team-name">Юлія Гіжовська</h3>
-                    <span class="team-role">Власниця · Засновниця · Інструктор</span>
-                    <p class="team-bio">Засновниця та натхненниця <span class="brand-text">SVOYA Nail Studio</span>.
-                        Інструктор школи, яка передає свій
-                        досвід новому поколінню майстрів.</p>
-                </article>
-                <article class="team-card" data-animate="fade-up">
-                    <div class="team-photo">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%239a8c7f'%3EФото%3C/text%3E%3C/svg%3E"
-                            alt="Юлія — інструктор" loading="lazy">
-                    </div>
-                    <h3 class="team-name">Юлія</h3>
-                    <span class="team-role">Інструктор школи</span>
-                    <p class="team-bio">Професійний інструктор, який допомагає майстрам вдосконалювати свої навички та
-                        опановувати нові техніки.</p>
-                </article>
-                <article class="team-card" data-animate="fade-up">
-                    <div class="team-photo">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%239a8c7f'%3EФото%3C/text%3E%3C/svg%3E"
-                            alt="Анастасія — топ-майстер" loading="lazy">
-                    </div>
-                    <h3 class="team-name">Анастасія</h3>
-                    <span class="team-role">Топ-майстер</span>
-                    <p class="team-bio">Топ-майстер студії з бездоганною технікою та увагою до найдрібніших деталей.</p>
-                </article>
-                <article class="team-card" data-animate="fade-up">
-                    <div class="team-photo">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%239a8c7f'%3EФото%3C/text%3E%3C/svg%3E"
-                            alt="Таня — майстер" loading="lazy">
-                    </div>
-                    <h3 class="team-name">Таня</h3>
-                    <span class="team-role">Майстер</span>
-                    <p class="team-bio">Талановитий майстер, який створює стильний та якісний манікюр для кожної
-                        клієнтки.</p>
-                </article>
-                <article class="team-card" data-animate="fade-up">
-                    <div class="team-photo">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%239a8c7f'%3EФото%3C/text%3E%3C/svg%3E"
-                            alt="Віка — майстер" loading="lazy">
-                    </div>
-                    <h3 class="team-name">Віка</h3>
-                    <span class="team-role">Майстер</span>
-                    <p class="team-bio">Креативний майстер з чудовим відчуттям стилю та індивідуальним підходом до
-                        кожного дизайну.</p>
-                </article>
-                <article class="team-card" data-animate="fade-up">
-                    <div class="team-photo">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%239a8c7f'%3EФото%3C/text%3E%3C/svg%3E"
-                            alt="Марія — майстер" loading="lazy">
-                    </div>
-                    <h3 class="team-name">Марія</h3>
-                    <span class="team-role">Майстер</span>
-                    <p class="team-bio">Уважний майстер із професійним підходом до кожної процедури та прагненням до
-                        ідеального результату.</p>
-                </article>
-            </div>
-        </div>
-    </section>
+            <div class="team-interactive" id="team-interactive">
+                
+                <!-- Аватарки майстрів -->
+                <div class="team-avatars-wrapper">
+                    <button class="team-avatar-scroll prev-avatar" aria-label="Гортати вліво">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    
+                    <div class="team-avatars-track" id="team-avatars">
+                        <!-- Юлія Гіжовська (Власниця) -->
+                        <button class="team-avatar-btn active" 
+                            data-photo="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%239a8c7f'%3EФото Юлії Г.%3C/text%3E%3C/svg%3E"
+                            data-name="Юлія Гіжовська"
+                            data-role="Власниця · Інструктор"
+                            data-bio="Засновниця та натхненниця <span class='brand-text'>SVOYA Nail Studio</span>. Майстер з багаторічним досвідом та інструктор, яка передає свої знання новому поколінню майстрів.">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23e8e0d8'/%3E%3C/svg%3E" alt="Юлія Гіжовська">
+                        </button>
+                        
+                        <!-- Юлія (Інструктор) -->
+                        <button class="team-avatar-btn" 
+                            data-photo="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%239a8c7f'%3EФото Юлії%3C/text%3E%3C/svg%3E"
+                            data-name="Юлія"
+                            data-role="Інструктор школи"
+                            data-bio="Професійний інструктор нашої студії. Допомагає майстрам вдосконалювати свої навички та опановувати новітні техніки в манікюрі.">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23e8e0d8'/%3E%3C/svg%3E" alt="Юлія">
+                        </button>
 
-    <!-- ═══════════ REVIEWS ═══════════ -->
-    <section class="section reviews" id="reviews">
-        <div class="container">
-            <span class="section-label" data-animate="fade-up">Що кажуть клієнти</span>
-            <h2 class="section-title" data-animate="fade-up">Відгуки</h2>
-            <div class="reviews-grid">
-                <blockquote class="review-card" data-animate="fade-up">
-                    <div class="review-stars" aria-label="5 з 5 зірок">★★★★★</div>
-                    <p class="review-text">
-                        «Неймовірна атмосфера та професійний підхід! Манікюр тримається бездоганно вже третій тиждень.
-                        Дуже рекомендую!»
-                    </p>
-                    <footer class="review-author">
-                        <span class="review-name">Марія К.</span>
-                        <span class="review-date">Березень 2026</span>
-                    </footer>
-                </blockquote>
-                <blockquote class="review-card" data-animate="fade-up">
-                    <div class="review-stars" aria-label="5 з 5 зірок">★★★★★</div>
-                    <p class="review-text">
-                        «Студія вражає своїм інтер'єром — хочеться повертатися знову і знову. Майстри уважні до деталей
-                        і дуже привітні.»
-                    </p>
-                    <footer class="review-author">
-                        <span class="review-name">Олександра Д.</span>
-                        <span class="review-date">Лютий 2026</span>
-                    </footer>
-                </blockquote>
-                <blockquote class="review-card" data-animate="fade-up">
-                    <div class="review-stars" aria-label="5 з 5 зірок">★★★★★</div>
-                    <p class="review-text">
-                        «Нарешті знайшла свою студію! Ідеальна чистота, преміальні матеріали, і результат завжди
-                        перевершує очікування.»
-                    </p>
-                    <footer class="review-author">
-                        <span class="review-name">Ірина В.</span>
-                        <span class="review-date">Січень 2026</span>
-                    </footer>
-                </blockquote>
+                        <!-- Таня (Майстер) -->
+                        <button class="team-avatar-btn" 
+                            data-photo="assets/employees/tania_card.jpg"
+                            data-name="Таня"
+                            data-role="Майстер"
+                            data-bio="Талановитий майстер, який створює стильний та якісний манікюр для кожної клієнтки. Працює з найскладнішими техніками.">
+                            <img src="assets/employees/tania_avatar.jpg" alt="Таня">
+                        </button>
+
+                        <!-- Вероніка (Майстер) -->
+                        <button class="team-avatar-btn" 
+                            data-photo="assets/employees/veronika_card.jpg"
+                            data-name="Вероніка"
+                            data-role="Майстер"
+                            data-bio="Уважний та акуратний майстер. Знає, як зробити ваші нігті міцними та красивими, враховуючи всі ваші побажання.">
+                            <img src="assets/employees/veronika_avatar.jpg" alt="Вероніка">
+                        </button>
+
+                        <!-- Вікторія (Майстер) -->
+                        <button class="team-avatar-btn" 
+                            data-photo="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%239a8c7f'%3EФото Вікторії%3C/text%3E%3C/svg%3E"
+                            data-name="Вікторія"
+                            data-role="Майстер"
+                            data-bio="Креативний майстер з чудовим відчуттям стилю та індивідуальним підходом. Кожен її дизайн — це справжнє мистецтво.">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23e8e0d8'/%3E%3C/svg%3E" alt="Вікторія">
+                        </button>
+
+                        <!-- Ангеліна (Майстер) -->
+                        <button class="team-avatar-btn" 
+                            data-photo="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%239a8c7f'%3EФото Ангеліни%3C/text%3E%3C/svg%3E"
+                            data-name="Ангеліна"
+                            data-role="Майстер"
+                            data-bio="Професійний майстер із бездоганним підходом до кожної процедури та прагненням до ідеального результату.">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23e8e0d8'/%3E%3C/svg%3E" alt="Ангеліна">
+                        </button>
+                    </div>
+
+                    <button class="team-avatar-scroll next-avatar" aria-label="Гортати вправо">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+
+                <!-- Детальна картка обраного майстра -->
+                <div class="team-details-card" id="team-details-card">
+                    <div class="team-details-photo">
+                        <img id="team-detail-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%239a8c7f'%3EФото Юлії Г.%3C/text%3E%3C/svg%3E" alt="Юлія Гіжовська">
+                    </div>
+                    <div class="team-details-info">
+                        <h3 class="team-detail-name" id="team-detail-name">Юлія Гіжовська</h3>
+                        <span class="team-detail-role" id="team-detail-role">Власниця · Інструктор</span>
+                        <p class="team-detail-bio" id="team-detail-bio">Засновниця та натхненниця <span class='brand-text'>SVOYA Nail Studio</span>. Майстер з багаторічним досвідом та інструктор, яка передає свої знання новому поколінню майстрів.</p>
+                        
+                        <a href="https://widget.easyweek.com.ua/svoya-nail-studio" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--team-book">Записатися до майстра</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -509,6 +490,58 @@
                     <img src="assets/salon_interior/photo_2026-03-26_00-44-23.jpg" alt="Елегантний інтер'єр"
                         loading="lazy">
                 </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ REVIEWS ═══════════ -->
+    <section class="section reviews" id="reviews">
+        <div class="container">
+            <span class="section-label" data-animate="fade-up">Що кажуть клієнти</span>
+            <h2 class="section-title" data-animate="fade-up">Відгуки</h2>
+            <div class="reviews-grid">
+                <blockquote class="review-card" data-animate="fade-up">
+                    <div class="review-stars" aria-label="5 з 5 зірок">★★★★★</div>
+                    <p class="review-text">
+                        «Дуже вам дякую, моя мама просто в захваті від манікюру, вже придумала що буде наступного разу робити! У вас всі майстри дуже класні дівчата і виконують роботу на найвищому рівні 🥰»
+                    </p>
+                    <footer class="review-author">
+                        <span class="review-name">Анастасія</span>
+                        <span class="review-date">Манікюр для мами</span>
+                    </footer>
+                </blockquote>
+                <blockquote class="review-card" data-animate="fade-up">
+                    <div class="review-stars" aria-label="5 з 5 зірок">★★★★★</div>
+                    <p class="review-text">
+                        «Усі мої питання були закриті. Навчання дуже сподобалося: багато корисної теорії та практики, усе пояснювалося доступно й зрозуміло. Атмосфера була комфортною та дружньою. Дякую за отримані знання! ❤️‍🔥»
+                    </p>
+                    <footer class="review-author">
+                        <span class="review-name">Nika</span>
+                        <span class="review-date">Курс манікюру</span>
+                    </footer>
+                </blockquote>
+                <blockquote class="review-card" data-animate="fade-up">
+                    <div class="review-stars" aria-label="5 з 5 зірок">★★★★★</div>
+                    <p class="review-text">
+                        «Юля та людина, яка любить дійсно свою роботу та робить все на найвищому рівні! Допомогла позбутися комплексів та страхів. Щиро дякую за ці 4 дні — вони були надзвичайно суперові. Те, що здавалося неможливим, стало реальним! 🎀»
+                    </p>
+                    <footer class="review-author">
+                        <span class="review-name">Олена</span>
+                        <span class="review-date">Підвищення кваліфікації</span>
+                    </footer>
+                </blockquote>
+            </div>
+            <div class="reviews-cta" data-animate="fade-up">
+                <a href="https://www.google.com/maps/search/?api=1&query=Svoya+nail+studio+пров.+Генерала+Тарнавського+2+Тернопіль" target="_blank" rel="noopener noreferrer" class="btn btn--google-reviews">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.97 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                    <span>Дивитися всі відгуки в Google</span>
+                    <span class="google-rating-pill">5.0 ★</span>
+                </a>
             </div>
         </div>
     </section>
