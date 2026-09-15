@@ -316,48 +316,12 @@
                 // We use innerHTML here cautiously, knowing the data source is hardcoded in HTML, not user input.
                 teamDetailBio.innerHTML = this.getAttribute('data-bio');
 
-                // Auto-center selected avatar strictly within the track (prevents entire page from shifting)
-                centerAvatarInTrack(this);
+                // Auto-center selected avatar strictly within the track if horizontal scroll is present
+                if (teamAvatarsTrack && teamAvatarsTrack.scrollWidth > teamAvatarsTrack.clientWidth + 5) {
+                    centerAvatarInTrack(this);
+                }
             });
         });
-
-        // Team avatar scroll buttons
-        if (teamPrevBtn && teamNextBtn && teamAvatarsTrack) {
-            teamPrevBtn.addEventListener('click', () => {
-                const step = teamAvatarsTrack.clientWidth * 0.75 || 150;
-                teamAvatarsTrack.scrollBy({ left: -step, behavior: 'smooth' });
-            });
-            teamNextBtn.addEventListener('click', () => {
-                const step = teamAvatarsTrack.clientWidth * 0.75 || 150;
-                teamAvatarsTrack.scrollBy({ left: step, behavior: 'smooth' });
-            });
-        }
-
-        // Team variant toggle (Arrows vs All)
-        const teamToggle = document.getElementById('team-variant-toggle');
-        const teamWrapper = document.querySelector('.team-avatars-wrapper');
-        if (teamToggle && teamWrapper) {
-            const toggleBtns = teamToggle.querySelectorAll('.team-toggle-btn');
-            toggleBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    toggleBtns.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const variant = this.getAttribute('data-team-variant');
-                    if (variant === 'all') {
-                        teamWrapper.classList.remove('variant-arrows');
-                        teamWrapper.classList.add('variant-all');
-                    } else {
-                        teamWrapper.classList.remove('variant-all');
-                        teamWrapper.classList.add('variant-arrows');
-                        const activeAvatar = teamWrapper.querySelector('.team-avatar-btn.active');
-                        if (activeAvatar) {
-                            centerAvatarInTrack(activeAvatar);
-                        }
-                    }
-                });
-            });
-        }
     }
 
     /* ═══════════════════════════════════
@@ -424,31 +388,7 @@
         }
     }
 
-    /* ═══════════════════════════════════
-       9. SERVICES MOBILE VARIANT TOGGLE
-       ═══════════════════════════════════ */
-    const servicesToggle = document.getElementById('services-mobile-toggle');
-    const servicesGrid = document.getElementById('services-grid');
 
-    if (servicesToggle && servicesGrid) {
-        const toggleBtns = servicesToggle.querySelectorAll('.services-toggle-btn');
-        toggleBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                toggleBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-
-                const variant = this.getAttribute('data-variant');
-                if (variant === 'grid') {
-                    servicesGrid.classList.remove('variant-swipe');
-                    servicesGrid.classList.add('variant-grid');
-                } else {
-                    servicesGrid.classList.remove('variant-grid');
-                    servicesGrid.classList.add('variant-swipe');
-                    servicesGrid.scrollLeft = 0;
-                }
-            });
-        });
-    }
 
     /* ═══════════════════════════════════
        10. COURSE DETAILS MODAL
@@ -542,6 +482,73 @@
                 '2 моделі для відпрацювання',
                 'Індивідуальний розбір техніки інструктором Юлією',
                 'Офіційний сертифікат про підвищення кваліфікації'
+            ]
+        },
+        pedicure: {
+            badge: '2 Дні · Практичний курс',
+            title: 'Курс «Педикюр — це легко»',
+            duration: '2 дні (10:00 — 18:00)',
+            format: 'Міні-група · 4 моделі',
+            price: 'Уточнюйте',
+            priceNote: 'Всі матеріали та моделі включено',
+            program: [
+                {
+                    title: 'День 1: Теорія, анатомія та комбінована чистка',
+                    points: [
+                        'Анатомія стопи та нігтьової пластини, межі компетенції майстра та подолога',
+                        'Безпечна комбінована чистка без порізів та перетирань',
+                        'Форма нігтів без ризику вростання та дискомфорту',
+                        'Практика на моделях під контролем інструктора'
+                    ]
+                },
+                {
+                    title: 'День 2: Робота з пододиском, покриття та френч',
+                    points: [
+                        'Правильна робота з пододиском та обробка стопи',
+                        'Тонке та безпечне покриття гель-лаком у педикюрі',
+                        'Френч та швидкісні дизайни для педикюру',
+                        'Практика на моделях, вручення диплома та друкованої методички'
+                    ]
+                }
+            ],
+            includes: [
+                '4 моделі для повноцінного відпрацювання',
+                'Робота з професійним пододиском та апаратом',
+                'Всі витратні матеріали та дезінфекція',
+                'Друкована методичка з покроковою технікою',
+                'Офіційний диплом про проходження курсу'
+            ]
+        },
+        geltips: {
+            badge: '1 День · Експрес-техніка',
+            title: 'Курс «Швидке нарощування на гелеві тіпси»',
+            duration: '1 день (10:00 — 18:00)',
+            format: 'Практичний інтенсив · 2 моделі',
+            price: 'Уточнюйте',
+            priceNote: 'Максимум практики, мінімум опилу',
+            program: [
+                {
+                    title: 'Блок 1: Підбір та правильна постановка тіпсів',
+                    points: [
+                        'Як правильно підбирати розмір та форму гелевих тіпсів під будь-який тип нігтів',
+                        'Техніка безпомилкової фіксації без повітряних бульбашок та відшарувань',
+                        'Створення красивої архітектури без тривалого опилу'
+                    ]
+                },
+                {
+                    title: 'Блок 2: Поєднання з комбі-манікюром та відпрацювання',
+                    points: [
+                        'Поєднання нарощування з комбінованим манікюром в один процес',
+                        'Робота швидше без втрати якості для підвищення середнього чеку',
+                        'Розбір типових помилок та практика на 2 моделях'
+                    ]
+                }
+            ],
+            includes: [
+                'Практика на 2 моделях під наглядом викладача',
+                'Набір гелевих тіпсів та професійні матеріали',
+                'Технологічна карта швидкості роботи',
+                'Сертифікат про проходження курсу'
             ]
         }
     };
