@@ -7,15 +7,16 @@
     'use strict';
 
     /* ── DOM references ── */
-    const header     = document.getElementById('site-header');
-    const hamburger  = document.getElementById('hamburger');
-    const nav        = document.getElementById('main-nav');
-    const navLinks   = nav.querySelectorAll('.nav-link');
-    const navOverlay = document.getElementById('nav-overlay');
-    const galleryEl  = document.getElementById('gallery-grid');
-    const lightbox   = document.getElementById('lightbox');
-    const lbImg      = document.getElementById('lightbox-img');
-    const lbClose    = document.getElementById('lightbox-close');
+    const header      = document.getElementById('site-header');
+    const hamburger   = document.getElementById('hamburger');
+    const nav         = document.getElementById('main-nav');
+    const navCloseBtn = document.getElementById('nav-close-btn');
+    const navLinks    = nav.querySelectorAll('.nav-link');
+    const navOverlay  = document.getElementById('nav-overlay');
+    const galleryEl   = document.getElementById('gallery-grid');
+    const lightbox    = document.getElementById('lightbox');
+    const lbImg       = document.getElementById('lightbox-img');
+    const lbClose     = document.getElementById('lightbox-close');
 
     /* ═══════════════════════════════════
        1. STICKY HEADER — glass blur after scroll
@@ -41,6 +42,9 @@
         if (navOverlay) {
             navOverlay.classList.toggle('open', isOpen);
         }
+        if (header) {
+            header.classList.toggle('nav-open', isOpen);
+        }
         hamburger.classList.toggle('active', isOpen);
         hamburger.setAttribute('aria-expanded', String(isOpen));
         document.body.classList.toggle('no-scroll', isOpen);
@@ -51,12 +55,19 @@
         if (navOverlay) {
             navOverlay.classList.remove('open');
         }
+        if (header) {
+            header.classList.remove('nav-open');
+        }
         hamburger.classList.remove('active');
         hamburger.setAttribute('aria-expanded', 'false');
         document.body.classList.remove('no-scroll');
     }
 
     hamburger.addEventListener('click', toggleNav);
+
+    if (navCloseBtn) {
+        navCloseBtn.addEventListener('click', closeNav);
+    }
 
     if (navOverlay) {
         navOverlay.addEventListener('click', closeNav);
@@ -282,6 +293,12 @@
     const teamNextBtn = document.querySelector('.next-avatar');
 
     if (teamAvatars.length > 0) {
+        function centerAvatarInTrack(avatarEl) {
+            if (!avatarEl || !teamAvatarsTrack) return;
+            const targetLeft = avatarEl.offsetLeft - (teamAvatarsTrack.clientWidth / 2) + (avatarEl.clientWidth / 2);
+            teamAvatarsTrack.scrollTo({ left: targetLeft, behavior: 'smooth' });
+        }
+
         teamAvatars.forEach(avatar => {
             avatar.addEventListener('click', function() {
                 // Remove active class from all
@@ -298,29 +315,60 @@
                 // For bio, we might have standard HTML like <span class="brand-text">. 
                 // We use innerHTML here cautiously, knowing the data source is hardcoded in HTML, not user input.
                 teamDetailBio.innerHTML = this.getAttribute('data-bio');
+
+                // Auto-center selected avatar strictly within the track (prevents entire page from shifting)
+                centerAvatarInTrack(this);
             });
         });
 
         // Team avatar scroll buttons
         if (teamPrevBtn && teamNextBtn && teamAvatarsTrack) {
             teamPrevBtn.addEventListener('click', () => {
-                teamAvatarsTrack.scrollBy({ left: -150, behavior: 'smooth' });
+                const step = teamAvatarsTrack.clientWidth * 0.75 || 150;
+                teamAvatarsTrack.scrollBy({ left: -step, behavior: 'smooth' });
             });
             teamNextBtn.addEventListener('click', () => {
-                teamAvatarsTrack.scrollBy({ left: 150, behavior: 'smooth' });
+                const step = teamAvatarsTrack.clientWidth * 0.75 || 150;
+                teamAvatarsTrack.scrollBy({ left: step, behavior: 'smooth' });
+            });
+        }
+
+        // Team variant toggle (Arrows vs All)
+        const teamToggle = document.getElementById('team-variant-toggle');
+        const teamWrapper = document.querySelector('.team-avatars-wrapper');
+        if (teamToggle && teamWrapper) {
+            const toggleBtns = teamToggle.querySelectorAll('.team-toggle-btn');
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    toggleBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const variant = this.getAttribute('data-team-variant');
+                    if (variant === 'all') {
+                        teamWrapper.classList.remove('variant-arrows');
+                        teamWrapper.classList.add('variant-all');
+                    } else {
+                        teamWrapper.classList.remove('variant-all');
+                        teamWrapper.classList.add('variant-arrows');
+                        const activeAvatar = teamWrapper.querySelector('.team-avatar-btn.active');
+                        if (activeAvatar) {
+                            centerAvatarInTrack(activeAvatar);
+                        }
+                    }
+                });
             });
         }
     }
 
     /* ═══════════════════════════════════
-       8. HERO VIDEO LAZY-LOAD
+       8. FOOTER & HERO VIDEO HANDLERS
        ═══════════════════════════════════ */
-    var heroVideo = document.querySelector('.hero-video');
+    const heroVideo = document.querySelector('.hero-video');
     if (heroVideo && 'IntersectionObserver' in window) {
-        var videoObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    heroVideo.play().catch(function () { /* autoplay blocked */ });
+                    heroVideo.play().catch(() => {});
                     videoObserver.unobserve(heroVideo);
                 }
             });
@@ -328,8 +376,286 @@
         videoObserver.observe(heroVideo);
     }
 
+    const footerVideo = document.getElementById('footer-video');
+    if (footerVideo) {
+        let footerVideoPlayed = false;
+
+        const playAnimation = () => {
+            footerVideo.currentTime = 0;
+            const playPromise = footerVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // In case browser autoplay policy blocks, set to peak frame
+                    footerVideo.currentTime = 11.8;
+                });
+            }
+        };
+
+        // Stop precisely at 11.8s where the logo "SVOYA NAIL STUDIO" is at peak brightness and clarity
+        footerVideo.addEventListener('timeupdate', () => {
+            if (footerVideo.currentTime >= 11.8) {
+                footerVideo.pause();
+                footerVideo.currentTime = 11.8;
+            }
+        });
+
+        footerVideo.addEventListener('ended', () => {
+            footerVideo.pause();
+            footerVideo.currentTime = 11.8;
+        });
+
+        // Click / tap to replay animation
+        const wrapper = footerVideo.closest('.footer-video-wrapper') || footerVideo;
+        wrapper.addEventListener('click', () => {
+            playAnimation();
+        });
+
+        if ('IntersectionObserver' in window) {
+            const footerObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !footerVideoPlayed) {
+                        footerVideoPlayed = true;
+                        playAnimation();
+                        footerObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            footerObserver.observe(wrapper);
+        }
+    }
+
     /* ═══════════════════════════════════
-       7. MODULAR BOOKING CTA
+       9. SERVICES MOBILE VARIANT TOGGLE
+       ═══════════════════════════════════ */
+    const servicesToggle = document.getElementById('services-mobile-toggle');
+    const servicesGrid = document.getElementById('services-grid');
+
+    if (servicesToggle && servicesGrid) {
+        const toggleBtns = servicesToggle.querySelectorAll('.services-toggle-btn');
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                toggleBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const variant = this.getAttribute('data-variant');
+                if (variant === 'grid') {
+                    servicesGrid.classList.remove('variant-swipe');
+                    servicesGrid.classList.add('variant-grid');
+                } else {
+                    servicesGrid.classList.remove('variant-grid');
+                    servicesGrid.classList.add('variant-swipe');
+                    servicesGrid.scrollLeft = 0;
+                }
+            });
+        });
+    }
+
+    /* ═══════════════════════════════════
+       10. COURSE DETAILS MODAL
+       ═══════════════════════════════════ */
+    const courseModalOverlay = document.getElementById('course-modal-overlay');
+    const courseModalContent = document.getElementById('course-modal-content');
+    const courseModalClose = document.getElementById('course-modal-close');
+    const courseDetailBtns = document.querySelectorAll('.btn--course-details');
+
+    const coursesData = {
+        basic: {
+            badge: '3 Дні · Інтенсивний базовий курс',
+            title: 'Базовий курс «Все про манікюр»',
+            duration: '3 дні (10:00 — 18:00)',
+            format: 'Міні-група (до 2–3 учнів)',
+            price: '10 500 грн',
+            priceNote: 'Всі матеріали та моделі включено',
+            program: [
+                {
+                    title: 'День 1: Теорія та знайомство з інструментом',
+                    points: [
+                        'Анатомія нігтьової пластини, типи шкіри та підбір фрез',
+                        'Санітарні норми: дезінфекція та стерилізація (сухожар, крафт-пакети)',
+                        'Організація робочого місця майстра та техніка безпеки',
+                        'Постановка руки та відпрацювання апаратної техніки на тренувальних картах'
+                    ]
+                },
+                {
+                    title: 'День 2: Комбінований манікюр + Покриття',
+                    points: [
+                        'Чистий комбінований манікюр без порізів та задирок',
+                        'Ідеальне вирівнювання нігтьової пластини базою без затьоків',
+                        'Покриття гель-лаком «під кутикулу» та створення ідеальних бліків',
+                        'Практика на 1-й моделі під постійним наглядом інструктора'
+                    ]
+                },
+                {
+                    title: 'День 3: Укріплення, Ремонт та Вручення сертифіката',
+                    points: [
+                        'Техніка укріплення гелем/полігелем без зайвого опилу',
+                        'Ремонт тріщин, донарощування кутиків та виправлення форми',
+                        'Практика на 2-й моделі з самостійним закріпленням результату',
+                        'Створення фото для Instagram, постановка світла та ракурсів',
+                        'Урочисте вручення авторського сертифіката студії'
+                    ]
+                }
+            ],
+            includes: [
+                'Повністю обладнане робоче місце та професійний апарат',
+                'Всі розхідні матеріали, фрези, гелі та стерильний інструмент',
+                'Моделі для кожного практичного дня',
+                'Детальний друкований методичний посібник',
+                'Іменний сертифікат про проходження базового курсу'
+            ]
+        },
+        pro: {
+            badge: '1 День · Підвищення кваліфікації',
+            title: 'Курс «Підвищення кваліфікації для майстрів»',
+            duration: '1 день (10:00 — 19:00)',
+            format: 'Індивідуальний або парний формат',
+            price: '4 500 грн',
+            priceNote: 'Інтенсивне практичне прокачування',
+            program: [
+                {
+                    title: 'Блок 1: Аналіз помилок та оптимізація таймінгу',
+                    points: [
+                        'Розбір причин відшарувань, сколів, пропилів та опіків',
+                        'Оптимізація рухів: скорочення часу процедури до 1:15–1:30 без втрати якості',
+                        'Швидкісний чистий зріз ножицями або твізером та полірування шкіри'
+                    ]
+                },
+                {
+                    title: 'Блок 2: Робота з твердими матеріалами та архітектура',
+                    points: [
+                        'Робота з рідким та густим полігелем, моделюючими гелями',
+                        'Виправлення скручених бічних стінок та підняття клюючих нігтів',
+                        'Чіткий квадрат без перевантаження та міцний ідеальний мигдаль'
+                    ]
+                },
+                {
+                    title: 'Блок 3: Практика на 2-х моделях та дизайни',
+                    points: [
+                        'Практика на двох моделях зі складними нігтями',
+                        'Швидкісні салонні дизайни (стемпінг, тонкі лінії, ідеальний френч)',
+                        'Вручення сертифіката підвищення кваліфікації'
+                    ]
+                }
+            ],
+            includes: [
+                'Преміальні матеріали, гелі та фрези студії',
+                '2 моделі для відпрацювання',
+                'Індивідуальний розбір техніки інструктором Юлією',
+                'Офіційний сертифікат про підвищення кваліфікації'
+            ]
+        }
+    };
+
+    function renderCourseModal(courseKey) {
+        const data = coursesData[courseKey];
+        if (!data || !courseModalContent) return;
+
+        let programHtml = '';
+        data.program.forEach(item => {
+            let pointsHtml = '';
+            item.points.forEach(p => {
+                pointsHtml += `<li>${p}</li>`;
+            });
+            programHtml += `
+                <div class="course-modal-program-day">
+                    <div class="course-modal-day-title">${item.title}</div>
+                    <ul class="course-modal-list">
+                        ${pointsHtml}
+                    </ul>
+                </div>
+            `;
+        });
+
+        let includesHtml = '';
+        data.includes.forEach(inc => {
+            includesHtml += `<li>${inc}</li>`;
+        });
+
+        courseModalContent.innerHTML = `
+            <div class="course-modal-header">
+                <span class="course-modal-badge">${data.badge}</span>
+                <h3 class="course-modal-title" id="modal-course-title">${data.title}</h3>
+                <div class="course-modal-meta">
+                    <div class="course-modal-meta-item">
+                        <strong>Тривалість:</strong> ${data.duration}
+                    </div>
+                    <div class="course-modal-meta-item">
+                        <strong>Формат:</strong> ${data.format}
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-modal-section">
+                <h4>Програма навчання</h4>
+                ${programHtml}
+            </div>
+
+            <div class="course-modal-section">
+                <h4>Що надається студією</h4>
+                <ul class="course-modal-list">
+                    ${includesHtml}
+                </ul>
+            </div>
+
+            <div class="course-modal-footer">
+                <div class="course-modal-price">
+                    ${data.price}
+                    <span>${data.priceNote}</span>
+                </div>
+                <a href="https://www.instagram.com/svoya_nail_studio?igsh=ZHJudzIza280dnli&utm_source=qr" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="btn btn--school btn--lg">
+                   Записатися на курс в Instagram
+                </a>
+            </div>
+        `;
+    }
+
+    function openCourseModal(courseKey) {
+        renderCourseModal(courseKey);
+        if (courseModalOverlay) {
+            courseModalOverlay.classList.add('is-open');
+            courseModalOverlay.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('no-scroll');
+        }
+    }
+
+    function closeCourseModal() {
+        if (courseModalOverlay) {
+            courseModalOverlay.classList.remove('is-open');
+            courseModalOverlay.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('no-scroll');
+        }
+    }
+
+    courseDetailBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const courseKey = this.getAttribute('data-course');
+            openCourseModal(courseKey);
+        });
+    });
+
+    if (courseModalClose) {
+        courseModalClose.addEventListener('click', closeCourseModal);
+    }
+
+    if (courseModalOverlay) {
+        courseModalOverlay.addEventListener('click', function (e) {
+            if (e.target === courseModalOverlay) {
+                closeCourseModal();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && courseModalOverlay && courseModalOverlay.classList.contains('is-open')) {
+            closeCourseModal();
+        }
+    });
+
+    /* ═══════════════════════════════════
+       11. MODULAR BOOKING CTA
        All buttons with [data-booking-url] are
        wired here. Swap the URL or replace this
        block with an API widget initializer later.

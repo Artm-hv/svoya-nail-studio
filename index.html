@@ -12,7 +12,7 @@
 
     <!-- Security -->
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; frame-src 'none'; connect-src 'self';">
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.ggpht.com; media-src 'self'; frame-src https://*.google.com https://*.google.com.ua https://maps.google.com https://www.google.com; connect-src 'self' https://*.googleapis.com https://*.google.com;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -41,6 +41,12 @@
                 <img src="assets/logo-dark.png" alt="SVOYA Nail Studio" class="logo-dark" width="52" height="52">
             </a>
             <nav class="main-nav" id="main-nav" aria-label="Головне меню">
+                <button class="nav-close-btn" id="nav-close-btn" type="button" aria-label="Закрити меню">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
                 <ul class="nav-list">
                     <li><a href="#about" class="nav-link">Про нас</a></li>
                     <li><a href="#services" class="nav-link">Послуги</a></li>
@@ -69,7 +75,8 @@
         </div>
     </header>
 
-    <!-- ═══════════ HERO ═══════════ -->
+    <!-- ═══════════ HERO (Тимчасово закоментовано) ═══════════ -->
+    <!--
     <section class="hero" id="hero">
         <video class="hero-video" autoplay muted loop playsinline preload="none" aria-hidden="true">
             <source src="assets/1.mp4" type="video/mp4">
@@ -86,6 +93,7 @@
             <span class="scroll-line"></span>
         </div>
     </section>
+    -->
 
     <!-- ═══════════ ABOUT ═══════════ -->
     <section class="section about" id="about">
@@ -127,7 +135,28 @@
         <div class="container">
             <span class="section-label" data-animate="fade-up">Що ми пропонуємо</span>
             <h2 class="section-title" data-animate="fade-up">Наші послуги</h2>
-            <div class="services-grid">
+            
+            <!-- Mobile Variant Toggle (для перевірки зручності) -->
+            <div class="services-mobile-toggle" id="services-mobile-toggle">
+                <button type="button" class="services-toggle-btn active" data-variant="swipe" id="btn-variant-swipe">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <polyline points="14 6 20 12 14 18"></polyline>
+                    </svg>
+                    <span>Варіант 1: Свайп</span>
+                </button>
+                <button type="button" class="services-toggle-btn" data-variant="grid" id="btn-variant-grid">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>Варіант 2: 2-колонки</span>
+                </button>
+            </div>
+
+            <div class="services-grid variant-swipe" id="services-grid">
                 <!-- 1. Манікюр -->
                 <article class="service-card" data-animate="fade-up">
                     <div class="service-icon">
@@ -295,7 +324,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="https://www.instagram.com/svoya_nail_studio?igsh=ZHJudzIza280dnli&utm_source=qr" target="_blank" rel="noopener noreferrer" class="btn btn--school btn--course">Записатися на курс</a>
+                            <div class="course-actions">
+                                <button type="button" class="btn btn--course-details" data-course="basic">Детальніше про курс</button>
+                                <a href="https://www.instagram.com/svoya_nail_studio?igsh=ZHJudzIza280dnli&utm_source=qr" target="_blank" rel="noopener noreferrer" class="btn btn--school btn--course">Записатися на курс</a>
+                            </div>
                         </div>
 
                         <!-- Slide 2: Підвищення кваліфікації -->
@@ -343,7 +375,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="https://www.instagram.com/svoya_nail_studio?igsh=ZHJudzIza280dnli&utm_source=qr" target="_blank" rel="noopener noreferrer" class="btn btn--school btn--course">Записатися на курс</a>
+                            <div class="course-actions">
+                                <button type="button" class="btn btn--course-details" data-course="pro">Детальніше про курс</button>
+                                <a href="https://www.instagram.com/svoya_nail_studio?igsh=ZHJudzIza280dnli&utm_source=qr" target="_blank" rel="noopener noreferrer" class="btn btn--school btn--course">Записатися на курс</a>
+                            </div>
                         </div>
                     </div>
 
@@ -375,14 +410,24 @@
             <h2 class="section-title" data-animate="fade-up">Наша команда</h2>
             <div class="team-interactive" id="team-interactive">
                 
+                <!-- Toggle варіантів команди -->
+                <div class="team-variant-toggle" id="team-variant-toggle">
+                    <button type="button" class="team-toggle-btn active" data-team-variant="arrows">
+                        <span>Варіант 1: Стрілки (по 3)</span>
+                    </button>
+                    <button type="button" class="team-toggle-btn" data-team-variant="all">
+                        <span>Варіант 2: Всі 7 майстрів</span>
+                    </button>
+                </div>
+
                 <!-- Аватарки майстрів -->
-                <div class="team-avatars-wrapper">
+                <div class="team-avatars-wrapper variant-arrows">
                     <button class="team-avatar-scroll prev-avatar" aria-label="Гортати вліво">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
                     
                     <div class="team-avatars-track" id="team-avatars">
-                        <!-- Юлія Гіжовська (Власниця) -->
+                        <!-- 1. Юлія Гіжовська (Власниця) -->
                         <button class="team-avatar-btn active" 
                             data-photo="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%239a8c7f'%3EФото Юлії Г.%3C/text%3E%3C/svg%3E"
                             data-name="Юлія Гіжовська"
@@ -391,7 +436,7 @@
                             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23e8e0d8'/%3E%3C/svg%3E" alt="Юлія Гіжовська">
                         </button>
                         
-                        <!-- Юлія (Інструктор) -->
+                        <!-- 2. Юлія (Інструктор) -->
                         <button class="team-avatar-btn" 
                             data-photo="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%239a8c7f'%3EФото Юлії%3C/text%3E%3C/svg%3E"
                             data-name="Юлія"
@@ -400,7 +445,16 @@
                             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23e8e0d8'/%3E%3C/svg%3E" alt="Юлія">
                         </button>
 
-                        <!-- Таня (Майстер) -->
+                        <!-- 3. Анастасія (Топ-майстер) -->
+                        <button class="team-avatar-btn" 
+                            data-photo="assets/employees/anastasia_card.jpg"
+                            data-name="Анастасія"
+                            data-role="Топ-майстер"
+                            data-bio="Досвідчений топ-майстер із винятковим відчуттям стилю та увагою до кожної деталі. Бездоганне покриття, чиста техніка та індивідуальний підхід до кожного клієнта.">
+                            <img src="assets/employees/anastasia_avatar.jpg" alt="Анастасія">
+                        </button>
+
+                        <!-- 4. Таня (Майстер) -->
                         <button class="team-avatar-btn" 
                             data-photo="assets/employees/tania_card.jpg"
                             data-name="Таня"
@@ -409,16 +463,7 @@
                             <img src="assets/employees/tania_avatar.jpg" alt="Таня">
                         </button>
 
-                        <!-- Вероніка (Майстер) -->
-                        <button class="team-avatar-btn" 
-                            data-photo="assets/employees/veronika_card.jpg"
-                            data-name="Вероніка"
-                            data-role="Майстер"
-                            data-bio="Уважний та акуратний майстер. Знає, як зробити ваші нігті міцними та красивими, враховуючи всі ваші побажання.">
-                            <img src="assets/employees/veronika_avatar.jpg" alt="Вероніка">
-                        </button>
-
-                        <!-- Вікторія (Майстер) -->
+                        <!-- 5. Вікторія (Майстер) -->
                         <button class="team-avatar-btn" 
                             data-photo="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%239a8c7f'%3EФото Вікторії%3C/text%3E%3C/svg%3E"
                             data-name="Вікторія"
@@ -427,13 +472,22 @@
                             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23e8e0d8'/%3E%3C/svg%3E" alt="Вікторія">
                         </button>
 
-                        <!-- Ангеліна (Майстер) -->
+                        <!-- 6. Ангеліна (Майстер) -->
                         <button class="team-avatar-btn" 
                             data-photo="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23e8e0d8'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%239a8c7f'%3EФото Ангеліни%3C/text%3E%3C/svg%3E"
                             data-name="Ангеліна"
                             data-role="Майстер"
                             data-bio="Професійний майстер із бездоганним підходом до кожної процедури та прагненням до ідеального результату.">
                             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23e8e0d8'/%3E%3C/svg%3E" alt="Ангеліна">
+                        </button>
+
+                        <!-- 7. Вероніка (Майстер) -->
+                        <button class="team-avatar-btn" 
+                            data-photo="assets/employees/veronika_card.jpg"
+                            data-name="Вероніка"
+                            data-role="Майстер"
+                            data-bio="Уважний та акуратний майстер. Знає, як зробити ваші нігті міцними та красивими, враховуючи всі ваші побажання.">
+                            <img src="assets/employees/veronika_avatar.jpg" alt="Вероніка">
                         </button>
                     </div>
 
@@ -559,7 +613,7 @@
                             <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z" />
                             <circle cx="12" cy="10" r="3" />
                         </svg>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Тернопіль,+пров.+Генерала+Тарнавського,+2"
+                        <a href="https://maps.app.goo.gl/uYeNdieeUpDsa74DA"
                             target="_blank" rel="noopener noreferrer" class="map-link">пров. Генерала Тарнавського , 2,
                             Тернопіль, 46002</a>
                     </div>
@@ -588,15 +642,26 @@
                     <p>Нд: 10:00 — 18:00</p>
                 </div>
             </div>
-            <div class="contact-cta" data-animate="fade-left">
-                <div class="cta-card">
-                    <h3>Готові до перетворення?</h3>
-                    <p>Запишіться на процедуру просто зараз через наш Instagram.</p>
-                    <a href="https://www.instagram.com/svoya_nail_studio?igsh=ZHJudzIza280dnli&utm_source=qr"
-                        target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--book btn--lg"
-                        id="cta-book-contact"
-                        data-booking-url="https://www.instagram.com/svoya_nail_studio?igsh=ZHJudzIza280dnli&utm_source=qr">
-                        Записатися
+            <div class="contact-map-wrapper" data-animate="fade-left">
+                <div class="map-card">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2588.481156686036!2d25.6363407!3d49.5651114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473033b1baa969bd%3A0xd0cd9a2d6ab7137e!2sSvoya%20nail%20studio!5e0!3m2!1suk!2sua!4v1710000000000!5m2!1suk!2sua" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Карта розташування SVOYA Nail Studio">
+                    </iframe>
+                    <a href="https://maps.app.goo.gl/uYeNdieeUpDsa74DA" target="_blank" rel="noopener noreferrer" 
+                       class="map-open-link" title="Відкрити маршрут в Google Картах">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        <span>Відкрити в Google Картах</span>
                     </a>
                 </div>
             </div>
@@ -604,33 +669,46 @@
     </section>
 
     <!-- ═══════════ FOOTER ═══════════ -->
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <div class="footer-brand">
-                <img src="assets/svoya nail-01.png" alt="SVOYA" width="80" height="80">
+    <footer class="site-footer" id="site-footer">
+        <div class="container footer-container">
+            <div class="footer-video-wrapper" title="Натисніть для повтору анімації">
+                <video class="footer-video" id="footer-video" muted playsinline preload="metadata" poster="assets/footer_logo_frame.jpg" aria-label="SVOYA Nail Studio Animation">
+                    <source src="assets/1.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="footer-content">
                 <span class="footer-tagline">Make your day here!</span>
+                <div class="footer-socials">
+                    <a href="https://www.instagram.com/svoya_nail_studio?igsh=ZHJudzIza280dnli&utm_source=qr"
+                        target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="20" rx="5" />
+                            <circle cx="12" cy="12" r="5" />
+                            <circle cx="17.5" cy="6.5" r="1.5" />
+                        </svg>
+                    </a>
+                    <a href="https://tiktok.com/@svoya_nail_studio_?_t=ZM-8xRXV2w7V9c&_r=1" target="_blank"
+                        rel="noopener noreferrer" class="social-link" aria-label="TikTok">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                        </svg>
+                    </a>
+                </div>
+                <p class="footer-copy">&copy; 2026 <span class="brand-text">SVOYA Nail Studio</span>. Усі права захищено.</p>
             </div>
-            <div class="footer-socials">
-                <a href="https://www.instagram.com/svoya_nail_studio?igsh=ZHJudzIza280dnli&utm_source=qr"
-                    target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="2" y="2" width="20" height="20" rx="5" />
-                        <circle cx="12" cy="12" r="5" />
-                        <circle cx="17.5" cy="6.5" r="1.5" />
-                    </svg>
-                </a>
-                <a href="https://tiktok.com/@svoya_nail_studio_?_t=ZM-8xRXV2w7V9c&_r=1" target="_blank"
-                    rel="noopener noreferrer" class="social-link" aria-label="TikTok">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-                    </svg>
-                </a>
-            </div>
-            <p class="footer-copy">&copy; 2026 <span class="brand-text">SVOYA Nail Studio</span>. Усі права захищено.
-            </p>
         </div>
     </footer>
+
+    <!-- ═══════════ COURSE DETAILS MODAL ═══════════ -->
+    <div class="course-modal-overlay" id="course-modal-overlay" aria-hidden="true">
+        <div class="course-modal" role="dialog" aria-modal="true" aria-labelledby="modal-course-title">
+            <button class="course-modal-close" id="course-modal-close" aria-label="Закрити модальне вікно">&times;</button>
+            <div class="course-modal-content" id="course-modal-content">
+                <!-- Контент підставляється динамічно через JS -->
+            </div>
+        </div>
+    </div>
 
     <!-- ═══════════ LIGHTBOX ═══════════ -->
     <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Перегляд зображення" hidden>
