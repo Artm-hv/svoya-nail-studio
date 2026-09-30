@@ -369,8 +369,9 @@
         });
 
         // Click / tap to replay animation
-        const wrapper = footerVideo.closest('.footer-video-wrapper') || footerVideo;
-        wrapper.addEventListener('click', () => {
+        const wrapper = document.getElementById('footer-bg-wrapper') || footerVideo.closest('.footer-bg-wrapper') || footerVideo;
+        wrapper.addEventListener('click', (e) => {
+            if (e.target.closest('a') || e.target.closest('button')) return;
             playAnimation();
         });
 
